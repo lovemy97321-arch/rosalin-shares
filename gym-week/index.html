@@ -75,9 +75,13 @@
         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       const isAndroid = /Android/i.test(userAgent);
       const options = document.getElementById('store-options');
+      const storeLink = document.getElementById('ios-store-link');
 
       options.hidden = false;
-      document.getElementById('ios-store-link').hidden = isAndroid;
+      storeLink.href = isIOS
+        ? 'itms-apps://apps.apple.com/app/id6808414346'
+        : 'https://apps.apple.com/app/id6808414346';
+      storeLink.hidden = isAndroid;
       document.getElementById('android-store-pending').hidden = isIOS;
     }
 
