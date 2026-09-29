@@ -24,6 +24,15 @@
       max-width: 420px;
       box-shadow: 0 8px 28px rgba(92, 61, 74, 0.12);
     }
+    .app-logo {
+      display: block;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 12px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(92, 61, 74, 0.16);
+    }
     a.btn {
       display: inline-block;
       margin-top: 16px;
@@ -38,23 +47,37 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 16px;
       margin-top: 12px;
     }
     .store-btn {
-      display: inline-block;
-      padding: 10px 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 8px 16px;
       border: 1px solid #59434b;
       border-radius: 10px;
       color: #3d2832;
       font-weight: 700;
       text-decoration: none;
     }
+    .store-icon {
+      width: 28px;
+      height: 28px;
+      flex: none;
+      padding: 4px;
+      border-radius: 7px;
+      background: #147ce5;
+      color: #fff;
+    }
     .muted { color: #8a6a75; font-size: 14px; margin-top: 12px; }
   </style>
 </head>
 <body>
   <div class="card">
+    <img class="app-logo" src="rosalin-icon.png" alt="شعار روزالين" width="60" height="60" />
     <h1 style="font-size:22px;margin:0 0 8px">روزالين</h1>
     <p id="status">جاري فتح التطبيق…</p>
     <p class="muted" id="hint">
@@ -62,7 +85,12 @@
     </p>
     <a class="btn" id="open-app-btn" href="#">جاري فتح التطبيق... إذا لم يفتح تلقائياً اضغط هنا</a>
     <div class="store-options" id="store-options" hidden>
-      <a class="store-btn" id="ios-store-link" href="https://apps.apple.com/app/id6808414346" hidden>تنزيل روزالين من App Store</a>
+      <a class="store-btn" id="ios-store-link" href="https://apps.apple.com/app/id6808414346" hidden>
+        <svg class="store-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 19 17 3M12 8l6 11M5 13h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+        </svg>
+        <span>تنزيل روزالين من App Store</span>
+      </a>
       <p class="muted" id="android-store-pending" hidden>
         نسخة Android قيد المراجعة على Google Play وستتوفر قريباً.
       </p>
