@@ -34,6 +34,22 @@
       border-radius: 14px;
       font-weight: 700;
     }
+    .store-options {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .store-btn {
+      display: inline-block;
+      padding: 10px 18px;
+      border: 1px solid #59434b;
+      border-radius: 10px;
+      color: #3d2832;
+      font-weight: 700;
+      text-decoration: none;
+    }
     .muted { color: #8a6a75; font-size: 14px; margin-top: 12px; }
   </style>
 </head>
@@ -41,16 +57,35 @@
   <div class="card">
     <h1 style="font-size:22px;margin:0 0 8px">روزالين</h1>
     <p id="status">جاري فتح التطبيق…</p>
-    <p class="muted" id="hint" hidden>
-      إذا لم يفتح تلقائياً، تأكدي أن روزالين مثبت ثم اضغطي الزر.
+    <p class="muted" id="hint">
+      إذا لم يفتح التطبيق أو لم يكن مثبتاً، اختاري متجر جهازك:
     </p>
     <a class="btn" id="open-app-btn" href="#">جاري فتح التطبيق... إذا لم يفتح تلقائياً اضغط هنا</a>
+    <div class="store-options" id="store-options" hidden>
+      <a class="store-btn" id="ios-store-link" href="https://apps.apple.com/app/id6808414346" hidden>تنزيل روزالين من App Store</a>
+      <p class="muted" id="android-store-pending" hidden>
+        نسخة Android قيد المراجعة على Google Play وستتوفر قريباً.
+      </p>
+    </div>
   </div>
   <script>
+    function showStoreFallback() {
+      const userAgent = navigator.userAgent || '';
+      const isIOS = /iPhone|iPad|iPod/i.test(userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isAndroid = /Android/i.test(userAgent);
+      const options = document.getElementById('store-options');
+
+      options.hidden = false;
+      document.getElementById('ios-store-link').hidden = isAndroid;
+      document.getElementById('android-store-pending').hidden = isIOS;
+    }
+
     function redirectToApp() {
       const currentSearch = window.location.search;
       const appScheme = 'rosalin://gym-week' + currentSearch;
       document.getElementById('open-app-btn').href = appScheme;
+      showStoreFallback();
       window.location.href = appScheme;
     }
 
