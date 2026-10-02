@@ -61,6 +61,21 @@
       max-width: 100%;
       height: auto;
     }
+    .google-play-badge {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 180px;
+      max-width: 100%;
+      min-height: 60px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #202124;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
     .muted { color: #8a6a75; font-size: 14px; margin-top: 12px; }
   </style>
 </head>
@@ -77,9 +92,9 @@
       <a class="store-btn" id="ios-store-link" href="https://apps.apple.com/app/id6808414346" hidden>
         <img class="app-store-badge" src="app-store-badge.svg" alt="Download on the App Store" width="180" height="60" />
       </a>
-      <p class="muted" id="android-store-pending" hidden>
-        نسخة Android قيد المراجعة على Google Play وستتوفر قريباً.
-      </p>
+      <a class="google-play-badge" id="android-store-link" href="https://play.google.com/store/apps/details?id=com.rosalin" hidden>
+        تنزيل من Google Play
+      </a>
     </div>
   </div>
   <script>
@@ -90,13 +105,14 @@
       const isAndroid = /Android/i.test(userAgent);
       const options = document.getElementById('store-options');
       const storeLink = document.getElementById('ios-store-link');
+      const androidStoreLink = document.getElementById('android-store-link');
 
       options.hidden = false;
       storeLink.href = isIOS
         ? 'itms-apps://apps.apple.com/app/id6808414346'
         : 'https://apps.apple.com/app/id6808414346';
       storeLink.hidden = isAndroid;
-      document.getElementById('android-store-pending').hidden = isIOS;
+      androidStoreLink.hidden = isIOS;
     }
 
     function redirectToApp() {
