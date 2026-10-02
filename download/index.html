@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="حمّلي تطبيق روزالين لتنظيم صحتك ولياقتك." />
+  <title>تحميل روزالين</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #fff5f8;
+      color: #3d2832;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px 22px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 8px 28px rgba(92, 61, 74, 0.12);
+    }
+    .app-logo {
+      display: block;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 12px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(92, 61, 74, 0.16);
+    }
+    h1 { font-size: 24px; margin: 0 0 8px; }
+    p { line-height: 1.7; }
+    .muted { color: #8a6a75; font-size: 14px; margin-top: 12px; }
+    .store-options {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .store-btn {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 210px;
+      min-height: 58px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .google-play { background: #202124; }
+    .app-store { background: #e83e8c; }
+    .store-btn:focus-visible { outline: 3px solid #3d2832; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img class="app-logo" src="../gym-week/rosalin-icon.jpg" alt="شعار روزالين" width="60" height="60" />
+    <h1>حمّلي تطبيق روزالين</h1>
+    <p id="status" aria-live="polite">نحوّلك إلى متجر جهازك…</p>
+    <p class="muted">إذا لم يبدأ التحويل تلقائياً، اختاري متجرك:</p>
+    <nav class="store-options" aria-label="متاجر التطبيقات">
+      <a class="store-btn google-play" href="https://play.google.com/store/apps/details?id=com.rosalin" rel="noopener">تحميل من Google Play</a>
+      <a class="store-btn app-store" href="https://apps.apple.com/app/id6808414346" rel="noopener">تحميل من App Store</a>
+    </nav>
+  </main>
+  <script>
+    (() => {
+      const userAgent = navigator.userAgent || '';
+      const isIOS = /iPhone|iPad|iPod/i.test(userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isAndroid = /Android/i.test(userAgent);
+      const storeUrl = isAndroid
+        ? 'https://play.google.com/store/apps/details?id=com.rosalin'
+        : isIOS
+          ? 'https://apps.apple.com/app/id6808414346'
+          : null;
+
+      if (storeUrl) {
+        window.setTimeout(() => window.location.replace(storeUrl), 900);
+      } else {
+        document.getElementById('status').textContent =
+          'اختاري المتجر المناسب لجهازك لتنزيل التطبيق.';
+      }
+    })();
+  </script>
+</body>
+</html>
