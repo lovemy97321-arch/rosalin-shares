@@ -88,9 +88,16 @@
   <script>
     (() => {
       const userAgent = navigator.userAgent || '';
-      const isIOS = /iPhone|iPad|iPod/i.test(userAgent) ||
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      const isAndroid = /Android/i.test(userAgent);
+      const uaData = navigator.userAgentData || {};
+      const platform = String(uaData.platform || navigator.platform || '');
+      const touch = navigator.maxTouchPoints > 1;
+      const isIOS = /iPhone|iPad|iPod|iOS/i.test(userAgent) || /iPhone|iPad|iPod|iOS/i.test(platform) ||
+        (navigator.platform === 'MacIntel' && touch);
+      const isAndroid = !isIOS && (
+        /Android|Adr|Silk|Mobile Safari|; wv\)/i.test(userAgent) ||
+        /Android/i.test(platform) ||
+        (touch && (/armv|aarch/i.test(platform) || (/Linux/i.test(platform) && !/X11/i.test(userAgent))))
+      );
       const storeUrl = isAndroid
         ? 'https://play.google.com/store/apps/details?id=com.rosalin'
         : isIOS
@@ -115,7 +122,15 @@
 
       if (storeUrl) {
         report(storeOf(storeUrl));
-        window.setTimeout(() => window.location.replace(storeUrl), 900);
+        window.setTimeout(() => {
+          try { window.location.replace(storeUrl); } catch (_) { window.location.href = storeUrl; }
+        }, 900);
+        window.setTimeout(() => {
+          if (document.visibilityState === 'visible') {
+            document.getElementById('status').textContent =
+              'لم يبدأ التحويل تلقائياً، اضغطي على زر المتجر أدناه.';
+          }
+        }, 3000);
       } else {
         document.getElementById('status').textContent =
           'اختاري المتجر المناسب لجهازك لتنزيل التطبيق.';
