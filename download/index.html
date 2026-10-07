@@ -86,7 +86,24 @@
           ? 'https://apps.apple.com/app/id6808414346'
           : null;
 
+      const report = (store) => {
+        try {
+          fetch('https://rosalin-gym-invites.lovemy97321.workers.dev/api/store-events', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ store }),
+            keepalive: true
+          }).catch(() => {});
+        } catch (_) {}
+      };
+      const storeOf = (url) => url.indexOf('play.google.com') !== -1 ? 'google-play' : 'app-store';
+      document.addEventListener('click', (event) => {
+        const link = event.target.closest && event.target.closest('a[href]');
+        if (link && /play\.google\.com|apps\.apple\.com/.test(link.href)) report(storeOf(link.href));
+      });
+
       if (storeUrl) {
+        report(storeOf(storeUrl));
         window.setTimeout(() => window.location.replace(storeUrl), 900);
       } else {
         document.getElementById('status').textContent =
