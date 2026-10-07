@@ -76,17 +76,50 @@
 </head>
 <body>
   <main class="card">
-    <img class="app-logo" src="../gym-week/rosalin-icon.jpg" alt="شعار روزالين" width="60" height="60" />
-    <h1>حمّلي تطبيق روزالين</h1>
-    <p id="status" aria-live="polite">نحوّلك إلى متجر جهازك…</p>
-    <p class="muted">إذا لم يبدأ التحويل تلقائياً، اختاري متجرك:</p>
-    <nav class="store-options" aria-label="متاجر التطبيقات">
-      <a class="store-btn google-play" href="https://play.google.com/store/apps/details?id=com.rosalin" rel="noopener">تحميل من Google Play</a>
-      <a class="store-btn app-store" href="https://apps.apple.com/app/id6808414346" rel="noopener">تحميل من App Store</a>
+    <img class="app-logo" src="../gym-week/rosalin-icon.jpg" alt="شعار روزالين" data-i18n-alt="logo" width="60" height="60" />
+    <h1 data-i18n="title">حمّلي تطبيق روزالين</h1>
+    <p id="status" aria-live="polite" data-i18n="redirecting">نحوّلك إلى متجر جهازك…</p>
+    <p class="muted" data-i18n="fallback">إذا لم يبدأ التحويل تلقائياً، اختاري متجرك:</p>
+    <nav class="store-options" aria-label="متاجر التطبيقات" data-i18n-aria="stores">
+      <a class="store-btn google-play" href="https://play.google.com/store/apps/details?id=com.rosalin" rel="noopener" data-i18n="gp">تحميل من Google Play</a>
+      <a class="store-btn app-store" href="https://apps.apple.com/app/id6808414346" rel="noopener" data-i18n="as">تحميل من App Store</a>
     </nav>
   </main>
   <script>
     (() => {
+      const strings = {
+        ar: {
+          title: 'حمّلي تطبيق روزالين', redirecting: 'نحوّلك إلى متجر جهازك…',
+          fallback: 'إذا لم يبدأ التحويل تلقائياً، اختاري متجرك:',
+          gp: 'تحميل من Google Play', as: 'تحميل من App Store',
+          choose: 'اختاري المتجر المناسب لجهازك لتنزيل التطبيق.',
+          manual: 'لم يبدأ التحويل تلقائياً، اضغطي على زر المتجر أدناه.',
+          stores: 'متاجر التطبيقات', logo: 'شعار روزالين',
+          pageTitle: 'تحميل روزالين'
+        },
+        en: {
+          title: 'Download the Rosalin app', redirecting: 'Redirecting you to your device\u2019s store\u2026',
+          fallback: 'If you are not redirected automatically, choose your store:',
+          gp: 'Get it on Google Play', as: 'Download on the App Store',
+          choose: 'Choose the right store for your device to download the app.',
+          manual: 'Automatic redirect did not start. Tap a store button below.',
+          stores: 'App stores', logo: 'Rosalin logo',
+          pageTitle: 'Download Rosalin'
+        }
+      };
+      const languages = (navigator.languages && navigator.languages.length)
+        ? navigator.languages : [navigator.language || 'ar'];
+      const lang = /^ar/i.test(String(languages[0])) ? 'ar' : 'en';
+      const t = strings[lang];
+      if (lang === 'en') {
+        document.documentElement.lang = 'en';
+        document.documentElement.dir = 'ltr';
+        document.title = t.pageTitle;
+        document.body.style.textAlign = 'center';
+      }
+      document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t[el.dataset.i18n]; });
+      document.querySelectorAll('[data-i18n-aria]').forEach((el) => el.setAttribute('aria-label', t[el.dataset.i18nAria]));
+      document.querySelectorAll('[data-i18n-alt]').forEach((el) => el.setAttribute('alt', t[el.dataset.i18nAlt]));
       const userAgent = navigator.userAgent || '';
       const uaData = navigator.userAgentData || {};
       const platform = String(uaData.platform || navigator.platform || '');
@@ -128,12 +161,12 @@
         window.setTimeout(() => {
           if (document.visibilityState === 'visible') {
             document.getElementById('status').textContent =
-              'لم يبدأ التحويل تلقائياً، اضغطي على زر المتجر أدناه.';
+              t.manual;
           }
         }, 3000);
       } else {
         document.getElementById('status').textContent =
-          'اختاري المتجر المناسب لجهازك لتنزيل التطبيق.';
+          t.choose;
       }
     })();
   </script>
